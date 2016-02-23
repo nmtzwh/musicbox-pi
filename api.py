@@ -15,7 +15,7 @@ import os
 import json
 import requests
 from Crypto.Cipher import AES
-from cookielib import LWPCookieJar
+from cookielib import MozillaCookieJar 
 from bs4 import BeautifulSoup
 import time
 # import logger
@@ -188,7 +188,7 @@ class NetEase:
         self.playlist_class_dict = {}
         self.session = requests.Session()
         self.storage = Storage()
-        self.session.cookies = LWPCookieJar(self.storage.cookie_path)
+        self.session.cookies = MozillaCookieJar(self.storage.cookie_path)
         try:
             self.session.cookies.load()
             self.file = file(self.storage.cookie_path, 'r')
