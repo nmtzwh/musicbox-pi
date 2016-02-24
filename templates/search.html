@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block title %}Search Songs{% endblock %}
+{% block body %}
+  <h3>Search Songs</h3>
+  {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
+  <form action="" method="post">
+    <input id="searStr" type="text" name="searchStr" value="{{ request.form.searchStr }}">
+    <div class="actions"><input class="button tiny" type="submit" value="Search"></div>
+  </form>
+  <div>&nbsp;</div>
+  <div class="table_container" {% for song in songs %} {% else %}style="display:none" {% endfor %} >
+    <table class="songs">
+      <!-- <caption>{{ self.title() }}</caption> -->
+      <tr>
+        <th id="play_action"> Action</th>
+        <th id="Title"> Title </th>
+        <th id="Artist"> Artist </th>
+        <th id="Album"> Album </th>
+      </tr>
+    {% for song in songs %}
+      <tr>
+        <td>      
+        {% if g.playlist %}
+          <strong>
+            <a href="{{ url_for('add_song', songindex=loop.index ) }}">Add</a>
+          </strong>
+        {% endif %}
+        </td>
+        <td><strong>
+          <a href="http://music.163.com/#/song?id={{ song.netease_id}}" target="_blank">{{ song.song_name }}</a>
+        </strong></td>
+        <td>{{ song.artist_name }}</td>
+        <td>{{ song.album_name }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <td> None </td>
+        <td> None </td>
+        <td> None </td>
+        <td> None </td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+<!--   <ul class="songs">
+  {% for song in songs %}
+    <li>
+      <p><strong>
+        <a href="http://music.163.com/#/song?id={{ song.netease_id}}" target="_blank">{{ song.song_name }}</a>
+      </strong>
+      {{ song.artist_name }}
+      &mdash; {{ song.album_name }}
+      {% if g.playlist %}
+        <strong>
+          <a href="{{ url_for('add_song', songindex=loop.index ) }}">Add</a>
+        </strong>
+      {% endif %}
+  {% endfor %}
+  </ul> -->
+{% endblock %}
+

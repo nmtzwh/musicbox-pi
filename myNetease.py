@@ -140,6 +140,15 @@ def add_song(songindex=0):
         flash('No song was added')
     return redirect(url_for('playlist_content', playlist_id=session['playlist_id']))
 
+@app.route('/remove/<int:song_id>')
+def remove_song(song_id):
+    """Delete an old song from database."""
+    db = get_db()
+    db.execute('''delete from song where song_id = ? ''', [song_id])
+    db.commit()
+    flash('That song was removed')
+    return redirect(url_for('playlist_content', playlist_id=session['playlist_id']))
+
 
 @app.route('/choose', methods=['GET', 'POST'])
 def choose_playlist():

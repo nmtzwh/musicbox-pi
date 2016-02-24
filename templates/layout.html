@@ -1,0 +1,84 @@
+<!doctype html>
+<title>{% block title %}Welcome{% endblock %} | Netease Music</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='foundation.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<!-- <script src="{{ url_for('static', filename='modernizr.js') }}"></script> -->
+
+<!-- top bar with search function -->
+<div class="fixed">
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#">Netease Music on Raspberry Pi</a></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li class="has-form">
+        <div class="row">
+          <div class="large-8 small-8 columns">
+            <a href="{{ url_for('add_playlist') }}" class="button">Add_Playlist</a>
+          </div>
+          <div class="large-4 small-4 columns">
+            <a href="{{ url_for('search') }}" class="button expand">Search</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+  </section>
+</nav>
+</div>
+
+<div class="row">
+  <div class="large-8 median-12 columns navigation">
+  {% if g.playlist %}
+    <a href="{{ url_for('choose_playlist') }}">Change playlist</a> |
+    <a href="{{ url_for('stop_playing') }}">Stop</a>
+  {% else %}
+    <a href="{{ url_for('choose_playlist') }}">Choose playlist</a>
+  {% endif %}
+
+  </div>
+  <div class="large-4 median-12 columns">
+    <!-- <div data-alert class="alert-box" > -->
+    {% with flashes = get_flashed_messages() %}
+      {% if flashes %}
+        <!-- <ul class="flashes"> -->
+        {% for message in flashes %}
+          <strong class="flashes">{{ message }}</strong>
+        {% endfor %}
+        <!-- </ul> -->
+      {% endif %}
+    {% endwith %}
+    <!-- </div> -->
+  </div>
+  <hr>
+</div>
+
+<div class="row">
+  <div class="large-12 small-12 columns body">
+  {% block body %}{% endblock %}
+  </div>
+</div>
+
+<footer class="row">
+  <div class="large-12 small-12 columns">
+    <hr />
+    <div class="row">
+      <div class="large-12 small-12 columns">
+        <p>NetEasePi &mdash; A Flask Application &copy; Copyright Tom Zeng.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="{{ url_for('static', filename='jquery.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='what-input.min.js') }}"></script> -->
+<script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+<script>
+  $(document).foundation();
+</script>

@@ -42,7 +42,7 @@ class Player:
 
     def playUrl(self, url_list):
         # http://linux.die.net/man/1/mpg123
-        para = ['mpg123', '-z']
+        para = ['mpg123']
         for url in url_list:
             para.append(str(url))
         # print para

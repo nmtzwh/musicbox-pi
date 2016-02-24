@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Playlist View{% endblock %}
+{% block body %}
+  <h2>Playlist View</h2>
+  {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
+  <form action="" method="post">
+    <div class="hide"><input id="postID" type="number" name="playlist_id" value="{{ request.form.playlist_id }}" ></div>
+    <dl>
+    {% for plist in playlist %}
+      <dd><hr></dd>
+      <!-- <dt>Label: -->
+      <dd><input class="button tiny" type="submit" onclick="document.getElementById('postID').value='{{ plist.playlist_id }}'" value="{{ plist.label }}"></dd>
+      <dd>{{ plist.comment }}</dd>
+    {% endfor %}
+    </dl>
+    <!-- <div class="actions"><input  value="Choose"></div> -->
+  </form>
+{% endblock %}
+

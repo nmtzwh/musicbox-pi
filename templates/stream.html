@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}
+  {% if request.endpoint == 'all_songs' %}
+    All Songs
+  {% elif request.endpoint == 'playlist_content' %}
+    Playlist: {{ playlist.label }}
+  {% else %}
+    All Songs
+  {% endif %}
+{% endblock %}
+{% block body %}
+  <h3>{{ self.title() }}</h3>
+  <table class="songs">
+    <!-- <caption>{{ self.title() }}</caption> -->
+    <tr>
+      <th id="play_action"> Action</th>
+      <th id="Title"> Title </th>
+      <th id="Artist"> Artist </th>
+      <th id="Album"> Album </th>
+    </tr>
+  {% for song in songs %}
+    <tr>
+      <td>      
+        {% if g.playlist %}
+        <strong>
+          <a href="{{ url_for('play_songs', song_id=song.song_id) }}">PLAY</a>
+        </strong>
+        {% endif %}
+        <strong>
+          <a href="{{ song.mp3_url }}" download="{{ song.artist_name }} - {{ song.song_name }}.mp3" target="__blank">Download</a>
+        </strong>
+      </td>
+      <td><strong>
+        <a href="http://music.163.com/#/song?id={{ song.netease_id}}" target="_blank">{{ song.song_name }}</a>
+      </strong></td>
+      <td>{{ song.artist_name }}</td>
+      <td>{{ song.album_name }}</td>
+      <td>
+        <strong>
+          <a href="{{ url_for('remove_song', song_id=song.song_id) }}">DEL</a>
+        </strong>
+      </td>
+    </tr>
+  {% else %}
+    <tr>
+      <td> None </td>
+      <td> None </td>
+      <td> None </td>
+      <td> None </td>
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}

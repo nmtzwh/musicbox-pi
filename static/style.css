@@ -1,0 +1,34 @@
+body {
+    /*background: #CAECE9;*/
+    font-family: 'Trebuchet MS', sans-serif;
+    /*font-size: 14px;*/
+}
+
+a {
+    color: #008CBA;
+}
+
+a:hover {
+    color: #007095;
+}
+
+input[type="text"],
+input[type="password"] {
+    background: white;
+    border: 1px solid #BFE6E2;
+    padding: 2px;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    color: #105751;
+}
+
+
+ul.flashes {
+    list-style: none;
+    /*margin: 10px 10px 0 10px;*/
+    /*padding: 0;*/
+}
+
+
