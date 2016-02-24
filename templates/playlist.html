@@ -9,7 +9,7 @@
     {% for plist in playlist %}
       <dd><hr></dd>
       <!-- <dt>Label: -->
-      <dd><input class="button tiny" type="submit" onclick="document.getElementById('postID').value='{{ plist.playlist_id }}'" value="{{ plist.label }}"></dd>
+      <dd><input class="button tiny" type="submit" onclick="document.getElementById('postID').value='{{ plist.playlist_id }}'" value="{{ plist.label }}"><a href="{{ url_for('remove_playlist', playlist_id=plist.playlist_id) }}" class="button tiny right">Remove</a></dd>
       <dd>{{ plist.comment }}</dd>
     {% endfor %}
     </dl>

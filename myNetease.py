@@ -168,6 +168,15 @@ def choose_playlist():
     return render_template('playlist.html', error=error, playlist=query_db('''
                             select * from playlist order by playlist_id desc'''))
 
+@app.route('/remove_playlist/<int:playlist_id>')
+def remove_playlist(playlist_id):
+    """Delete an old playlist and all the songs in it from database."""
+    db = get_db()
+    db.execute('''delete from song where in_playlist = ? ''', [playlist_id])
+    db.execute('''delete from playlist where playlist_id = ? ''', [playlist_id])
+    db.commit()
+    flash('That playlist was removed')
+    return redirect(url_for('choose_playlist'))
 
 @app.route('/add_playlist', methods=['GET', 'POST'])
 def add_playlist():
