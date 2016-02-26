@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block title %}Search playlist{% endblock %}
+{% block body %}
+  <h3>Search playlist</h3>
+  {% if error %}<div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
+  <form action="" method="post">
+    <input id="searStr" type="text" name="searchStr" value="{{ request.form.searchStr }}">
+    <div class="actions"><input class="button tiny" type="submit" value="Search"></div>
+  </form>
+  <div>&nbsp;</div>
+  <div class="table_container" {% for list in playlist %} {% else %}style="display:none" {% endfor %} >
+    <table class="playlists">
+      <!-- <caption>{{ self.title() }}</caption> -->
+      <tr>
+        <th id="play_action"> Action</th>
+        <th id="Name"> Name</th>
+        <th id="Creator"> Creator </th>
+      </tr>
+    {% for list in playlist %}
+      <tr>
+        <td>      
+          <strong>
+            <a href="{{ url_for('add_userlist', playlist_netease_id=list.playlist_netease_id, playlist_name=list.playlists_name ) }}">Add</a>
+          </strong>
+        </td>
+        <td>{{ list.playlists_name }}</td>
+        <td>{{ list.creator_name }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <td> None </td>
+        <td> None </td>
+        <td> None </td>
+        <td> None </td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+<!--   <ul class="songs">
+  {% for song in songs %}
+    <li>
+      <p><strong>
+        <a href="http://music.163.com/#/song?id={{ song.netease_id}}" target="_blank">{{ song.song_name }}</a>
+      </strong>
+      {{ song.artist_name }}
+      &mdash; {{ song.album_name }}
+      {% if g.playlist %}
+        <strong>
+          <a href="{{ url_for('add_song', songindex=loop.index ) }}">Add</a>
+        </strong>
+      {% endif %}
+  {% endfor %}
+  </ul> -->
+{% endblock %}
+

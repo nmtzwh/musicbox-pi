@@ -22,7 +22,7 @@ import api
 
 # configuration
 DATABASE = './neteasepy.db'
-PER_PAGE = 30
+PER_PAGE = 300
 DEBUG = True
 SECRET_KEY = 'development key'
 
@@ -30,6 +30,7 @@ class MyFlask(Flask):
     def __init__(self, * args, ** kwargs):
         super(MyFlask, self).__init__(*args, **kwargs)
         self.player = player.Player()
+        self.playlist_result = []
         self.search_result = []
 
 # create our little application :)
@@ -265,6 +266,51 @@ def search():
     flash('Results are shown below: ')
     return render_template('search.html', error=error, songs=app.search_result)
 
+
+def getListInfo(searchStr):
+    data = netease.search(searchStr, stype=1000)
+    return netease.dig_info(data['result']['playlists'], 'top_playlists')
+
+
+@app.route('/search_playlist', methods=['GET','POST'])
+def search_playlist():
+    """search playlist online."""
+    error = None
+    listinfo = []
+    app.playlist_result = []
+    if request.method == 'POST':
+        if not request.form['searchStr']:
+            error = 'You have to enter some shit ...'
+        else:
+            listinfo = getListInfo(request.form['searchStr'])  # add search type in the future!!!
+            if len(listinfo) == 0:
+                error = 'Sorry, cannot find any playlist T^T'
+    for i in range(0, len(listinfo)):
+        temp = dict(playlist_netease_id=listinfo[i]['playlist_id'], creator_name=listinfo[i]['creator_name'], playlists_name=listinfo[i]['playlists_name'])
+        app.playlist_result.append(temp)            
+    flash('Results are shown below: ')
+    return render_template('search_list.html', error=error, playlist=app.playlist_result)
+
+
+@app.route('/add_userlist/<playlist_netease_id>/<playlist_name>/')
+def add_userlist(playlist_netease_id, playlist_name):
+    """Registers a new playlist from user."""
+    db = get_db()
+    cur = db.cursor()
+    cur.execute('''insert into playlist (label) values (?)''', [playlist_name])
+    new_id = cur.lastrowid
+    db.commit()
+    print new_id 
+    # adding new songs in this playlist 
+    data = netease.playlist_detail(playlist_netease_id)
+    songs = netease.dig_info(data, 'songs')
+    for song in songs:
+        db.execute('''insert into song (in_playlist, netease_id, song_name, artist_name, album_name, mp3_url)
+                   values (?, ?, ?, ?, ?, ?)''', (new_id, song['song_id'], song['song_name'], 
+                                                  song['artist'], song['album_name'], song['mp3_url']))        
+    db.commit()
+    flash('Your playlist was added')
+    return redirect(url_for('choose_playlist'))
 
 # @app.route('/logout')
 # def logout():
