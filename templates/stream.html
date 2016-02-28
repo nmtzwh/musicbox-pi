@@ -10,14 +10,16 @@
 {% endblock %}
 {% block body %}
   <h3>{{ self.title() }}</h3>
-  <table class="songs">
+  <table class="songs display" id="example" cellspacing="0" width="100%" >
     <!-- <caption>{{ self.title() }}</caption> -->
-    <tr>
+    <thead><tr>
       <th id="play_action"> Action</th>
       <th id="Title"> Title </th>
       <th id="Artist"> Artist </th>
       <th id="Album"> Album </th>
-    </tr>
+      <th id="Album"> Delete </th>
+    </tr></thead>
+    <tbody>
   {% for song in songs %}
     <tr>
       <td>      
@@ -49,5 +51,18 @@
       <td> None </td>
     </tr>
   {% endfor %}
+    </tbody>
   </table>
+{% endblock %}
+
+
+{% block footer %}
+<script type="text/javascript" src="https://cdn.datatables.net/r/zf-5.5.2/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function() {
+    $('#example').dataTable({
+      pageLength: 10
+    });
+  } );
+</script>
 {% endblock %}

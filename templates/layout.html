@@ -2,7 +2,8 @@
 <title>{% block title %}Welcome{% endblock %} | Netease Music</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='foundation.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-<!-- <script src="{{ url_for('static', filename='modernizr.js') }}"></script> -->
+<!-- data table -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/zf-5.5.2/jqc-1.11.3,dt-1.10.8/datatables.min.css"/>
 
 <!-- top bar with search function -->
 <div class="fixed">
@@ -82,3 +83,4 @@
 <script>
   $(document).foundation();
 </script>
+{% block footer %}{% endblock %}
